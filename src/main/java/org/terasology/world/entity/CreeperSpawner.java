@@ -39,7 +39,7 @@ import org.terasology.world.chunks.ChunkConstants;
 import org.terasology.world.chunks.event.OnChunkGenerated;
 
 @RegisterSystem
-public class CreeperSpawn extends BaseComponentSystem {
+public class CreeperSpawner extends BaseComponentSystem {
     private static final int CREEPER_GROUP_SIZE = 50;
     private static final int SPAWN_CHANCE_IN_PERCENT = 50;
 
