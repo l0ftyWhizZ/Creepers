@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.terasology.world.entity;
+package org.terasology.creepers.system;
 
 import java.util.List;
 import java.util.Random;
@@ -26,7 +26,6 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
@@ -117,7 +116,7 @@ public class CreeperSpawner extends BaseComponentSystem {
     private void spawnCreeperAtLocation(Vector3i location) {
         Vector3f floatVectorLocation = location.toVector3f();
         Vector3f yAxis = new Vector3f(0, 1, 0);
-        float randomAngle = (float) (random.nextFloat()*Math.PI*2);
+        float randomAngle = (float) (random.nextFloat() * Math.PI * 2);
         Quat4f rotation = new Quat4f(yAxis, randomAngle);
         entityManager.create(creeperPrefab, floatVectorLocation, rotation);
     }
