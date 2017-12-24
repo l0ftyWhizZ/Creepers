@@ -4,6 +4,9 @@
     "author" : "",
     "displayName" : "Creepers",
     "description" : "",
-    "dependencies" : [],
+    "dependencies" : [
+        {"id": "Core", "minVersion": "1.0.0"},
+        {"id": "Behaviors", "minVersion": "1.0.0"}
+    ],
     "serverSideOnly" : false
 }
