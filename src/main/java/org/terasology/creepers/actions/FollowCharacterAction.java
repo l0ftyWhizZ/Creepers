@@ -13,30 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.terasology.creepers.actions;
 
-package org.terasology.creepers.action;
-
+import org.terasology.behaviors.components.FindNearbyPlayersComponent;
 import org.terasology.logic.behavior.BehaviorAction;
 import org.terasology.logic.behavior.core.Actor;
 import org.terasology.logic.behavior.core.BaseAction;
 import org.terasology.logic.behavior.core.BehaviorState;
-import org.terasology.logic.characters.CharacterMovementComponent;
-import org.terasology.rendering.nui.properties.Range;
+import org.terasology.behaviors.components.FollowComponent;
 
-/*
- * Sets the speed multiplier of the entity
- * to the multiplier specified in the parameter.
- */
-@BehaviorAction(name = "set_speed")
-public class SetSpeedAction extends BaseAction {
-    @Range(max = 10f)
-    private float speedMultiplier;
+
+@BehaviorAction(name = "followCharacter")
+public class FollowCharacterAction extends BaseAction {
 
     @Override
     public void construct(Actor actor) {
-        CharacterMovementComponent characterMovementComponent = actor.getComponent(CharacterMovementComponent.class);
-        characterMovementComponent.speedMultiplier = speedMultiplier;
-        actor.getEntity().saveComponent(characterMovementComponent);
+        FollowComponent followComponent = new FollowComponent();
+        FindNearbyPlayersComponent component = actor.getComponent(FindNearbyPlayersComponent.class);
+        followComponent.entityToFollow = component.charactersWithinRange.get(0);
+        actor.save(followComponent);
+
     }
 
     @Override
@@ -44,3 +40,4 @@ public class SetSpeedAction extends BaseAction {
         return BehaviorState.SUCCESS;
     }
 }
+

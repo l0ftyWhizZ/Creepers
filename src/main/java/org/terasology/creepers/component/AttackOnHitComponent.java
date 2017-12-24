@@ -18,15 +18,11 @@ package org.terasology.creepers.component;
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
 
-public class CreeperComponent implements Component {
-    public float speedMultiplier = 1.5f;
-    public float minDistance = 10f;
-    public float explosionFactor = 25f;
+public class AttackOnHitComponent implements Component {
+    // Maximum distance from instigator after which the animal will stop chasing to attack
+    public float maxDistance = 10f;
+    // Speed factor by which attack speed increases
+    public float speedMultiplier = 1.2f;
     public EntityRef instigator;
-
-    public CreeperComponent() {
-        /*
-            Default constructor. Use pre-defined values for the fields.
-         */
-    }
+    public long timeWhenHit;
 }

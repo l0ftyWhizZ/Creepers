@@ -18,15 +18,15 @@ package org.terasology.creepers.component;
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
 
-public class CreeperComponent implements Component {
-    public float speedMultiplier = 1.5f;
-    public float minDistance = 10f;
-    public float explosionFactor = 25f;
-    public EntityRef instigator;
+import java.util.List;
 
-    public CreeperComponent() {
-        /*
-            Default constructor. Use pre-defined values for the fields.
-         */
-    }
+/**
+ * If this components is attached to an NPC entity it will constantly look
+ * around for nearby players that enter a given radius.
+ */
+public class FindNearbyPlayersComponent implements Component {
+    /* Search radius for finding nearby players */
+    public float searchRadius = 10f;
+    /* List of player entities nearby */
+    public List<EntityRef> charactersWithinRange;
 }

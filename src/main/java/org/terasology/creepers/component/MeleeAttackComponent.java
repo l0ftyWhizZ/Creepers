@@ -15,18 +15,21 @@
  */
 package org.terasology.creepers.component;
 
+import com.google.common.collect.Lists;
 import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.rendering.assets.animation.MeshAnimation;
 
-public class CreeperComponent implements Component {
-    public float speedMultiplier = 1.5f;
-    public float minDistance = 10f;
-    public float explosionFactor = 25f;
-    public EntityRef instigator;
+import java.util.List;
 
-    public CreeperComponent() {
-        /*
-            Default constructor. Use pre-defined values for the fields.
-         */
-    }
+/**
+ * The components gets currently only used as container for the melee attack animation.
+ */
+public class MeleeAttackComponent implements Component {
+    /**
+     * A pool of attack animations. The animations of the pool will be picked by random. The result is a randomized
+     * animation loop. The same animation can be put multiple times in the pool, so that it will be chosen more
+     * frequently.
+     */
+    public List<MeshAnimation> animationPool = Lists.newArrayList();
+
 }

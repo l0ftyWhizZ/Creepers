@@ -1,0 +1,19 @@
+{
+  dynamic: [
+      {
+        guard: {
+          componentPresent: "Creepers:FindNearbyPlayers",
+          values: ["N charactersWithinRange nonEmpty"],
+          child: {
+          sequence: [
+            { sleep: {time: 0.1f }},
+            followCharacter,
+            { lookup: {tree: "Creepers:hostile" }}
+
+            ]
+          }
+        }
+      },
+      { lookup: { tree: "Creepers:stray" }}
+  ]
+}

@@ -18,15 +18,10 @@ package org.terasology.creepers.component;
 import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
 
-public class CreeperComponent implements Component {
-    public float speedMultiplier = 1.5f;
-    public float minDistance = 10f;
-    public float explosionFactor = 25f;
-    public EntityRef instigator;
-
-    public CreeperComponent() {
-        /*
-            Default constructor. Use pre-defined values for the fields.
-         */
-    }
+/**
+ * Entities with this components want to follow another entity. Used to make gooey follow the player around if
+ * the player wishes so.
+ */
+public class FollowComponent implements Component {
+    public EntityRef entityToFollow = EntityRef.NULL;
 }

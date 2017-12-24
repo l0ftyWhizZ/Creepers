@@ -7,7 +7,7 @@
     "loop": true
   },
   "Behavior": {
-    "tree": "Behaviors:hostileCritter"
+    "tree": "Creepers:hostileCritter"
   },
   "Stand": {
     "animationPool": [
@@ -77,8 +77,5 @@
       "engine:debris",
       "engine:sensor"
     ]
-  },
-  "FleeOnHit": {
-    "minDistance": 5
   }
 }
