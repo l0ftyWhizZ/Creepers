@@ -18,10 +18,8 @@ package org.terasology.creepers.system;
 
 import org.terasology.creepers.component.CreeperComponent;
 import org.terasology.creepers.UpdateBehaviorEvent;
-import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.assets.management.AssetManager;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
@@ -34,7 +32,6 @@ import org.terasology.logic.behavior.BehaviorComponent;
 import org.terasology.logic.behavior.asset.BehaviorTree;
 import org.terasology.registry.In;
 
-@RegisterSystem
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class CreeperSystem extends BaseComponentSystem {
     @In
