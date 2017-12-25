@@ -91,7 +91,7 @@ public class CreeperExplosionEvent extends ExplosionAuthoritySystem {
         if (origin == null) {
             return;
         }
-        
+
         doExplosion(explosionComp, origin, EntityRef.NULL);
     }
 

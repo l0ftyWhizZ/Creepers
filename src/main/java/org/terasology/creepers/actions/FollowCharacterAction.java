@@ -17,10 +17,13 @@ package org.terasology.creepers.actions;
 
 import org.terasology.behaviors.components.FindNearbyPlayersComponent;
 import org.terasology.behaviors.components.FollowComponent;
+import org.terasology.creepers.component.CreeperComponent;
 import org.terasology.logic.behavior.BehaviorAction;
 import org.terasology.logic.behavior.core.Actor;
 import org.terasology.logic.behavior.core.BaseAction;
 import org.terasology.logic.behavior.core.BehaviorState;
+import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.geom.Vector3f;
 
 
 @BehaviorAction(name = "CheckFollowStatus")
@@ -32,7 +35,13 @@ public class FollowCharacterAction extends BaseAction {
         FindNearbyPlayersComponent component = actor.getComponent(FindNearbyPlayersComponent.class);
         followComponent.entityToFollow = component.closestCharacter;
         actor.save(followComponent);
+        float maxDistance =  actor.getComponent(CreeperComponent.class).maxDistanceTillExplode;
+        Vector3f currentPlayerLocation = followComponent.entityToFollow.getComponent(LocationComponent.class).getWorldPosition();
+        Vector3f currentActorLocation = actor.getComponent(LocationComponent.class).getWorldPosition();
 
+        if (currentActorLocation.distanceSquared(currentPlayerLocation) < maxDistance * maxDistance) {
+
+        }
     }
 
     @Override
