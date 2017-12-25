@@ -24,10 +24,12 @@ import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
+import org.terasology.logic.delay.DelayManager;
 import org.terasology.logic.health.DoDamageEvent;
 import org.terasology.logic.health.OnDamagedEvent;
 import org.terasology.logic.actions.ExplosionActionComponent;
@@ -60,8 +62,12 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
     @In
     private BlockManager blockManager;
 
+    @In
+    private DelayManager delayManager;
+
     private Random random = new FastRandom();
     private List<Optional<StaticSound>> explosionSounds = Lists.newArrayList();
+    private String delayActionID = "DELAY_ACTION_ID";
 
     @Override
     public void initialise() {
@@ -84,8 +90,10 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
             float maxDistance =  entity.getComponent(CreeperComponent.class).maxDistanceTillExplode;
 
             if (currentActorLocation.distanceSquared(entityFollowingLocation) <= maxDistance * maxDistance) {
+                delayManager.addDelayedAction(entity, delayActionID, component.explosionDelay);
                 doExplosion(explosionComp, currentActorLocation, EntityRef.NULL, entity);
-                followComponent.entityToFollow.send(new DoDamageEvent(explosionComp.damageAmount));
+                Prefab damageType = Assets.getPrefab("Creepers:Creeper").get();
+                followComponent.entityToFollow.send(new DoDamageEvent(explosionComp.damageAmount, damageType, entity));
             }
         }
     }

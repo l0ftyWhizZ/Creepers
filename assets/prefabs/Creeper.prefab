@@ -83,8 +83,8 @@
   },
   "ExplosionAction": {
     "relativeTo": "Self",
-    "maxRange": 20,
-    "damageAmount": 40,
+    "maxRange": 48,
+    "damageAmount": 500,
     "damageType": "core:DestructiveExplosiveDamage"
   },
   "Creeper": {
@@ -92,5 +92,8 @@
   },
   "PlaySoundAction": {
         "sounds": ["core:Explode1", "core:Explode2", "core:Explode3", "core:Explode4", "core:Explode5"]
+  },
+  "DisplayName": {
+    "name": "Creeper"
   }
 }

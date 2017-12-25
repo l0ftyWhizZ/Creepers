@@ -20,4 +20,6 @@ import org.terasology.entitySystem.Component;
 public class CreeperComponent implements Component {
     /* The maximum distance a creeper can have from a player, before exploding. */
     public float maxDistanceTillExplode = 10f;
+    /* The delay between the instances when the creeper explodes, and when it starts fusing up. */
+    public long explosionDelay = 2;
 }
