@@ -20,7 +20,7 @@ import org.terasology.audio.StaticSound;
 import org.terasology.audio.events.PlaySoundEvent;
 import org.terasology.behaviors.components.FollowComponent;
 import org.terasology.creepers.component.CreeperComponent;
-import org.terasology.logic.actions.ExplosionActionComponent;
+import org.terasology.entitySystem.event.ReceiveEvent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
@@ -29,6 +29,8 @@ import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.health.DoDamageEvent;
+import org.terasology.logic.health.OnDamagedEvent;
+import org.terasology.logic.actions.ExplosionActionComponent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
@@ -86,6 +88,11 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
                 followComponent.entityToFollow.send(new DoDamageEvent(explosionComp.damageAmount));
             }
         }
+    }
+
+    @ReceiveEvent
+    public void onDamage(OnDamagedEvent event, EntityRef entity) {
+        return;
     }
 
     private StaticSound getRandomExplosionSound() {
