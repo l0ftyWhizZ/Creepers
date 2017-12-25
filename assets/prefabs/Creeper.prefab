@@ -79,6 +79,18 @@
     ]
   },
   "FindNearbyPlayers": {
-    "searchRadius": 15
+    "searchRadius": 20
+  },
+  "ExplosionAction": {
+    "relativeTo": "Self",
+    "maxRange": 20,
+    "damageAmount": 40,
+    "damageType": "core:DestructiveExplosiveDamage"
+  },
+  "Creeper": {
+    "maxDistanceTillExplode": 2
+  },
+  "PlaySoundAction": {
+        "sounds": ["core:Explode1", "core:Explode2", "core:Explode3", "core:Explode4", "core:Explode5"]
   }
 }

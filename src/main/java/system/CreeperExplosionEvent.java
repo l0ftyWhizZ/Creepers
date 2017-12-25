@@ -18,14 +18,16 @@ package system;
 import com.google.common.collect.Lists;
 import org.terasology.audio.StaticSound;
 import org.terasology.audio.events.PlaySoundEvent;
+import org.terasology.behaviors.components.FollowComponent;
+import org.terasology.creepers.component.CreeperComponent;
+import org.terasology.logic.actions.ExplosionActionComponent;
 import org.terasology.entitySystem.entity.EntityBuilder;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.logic.actions.ExplosionActionComponent;
-import org.terasology.logic.actions.ExplosionAuthoritySystem;
-import org.terasology.logic.common.ActivateEvent;
-import org.terasology.logic.delay.DelayManager;
+import org.terasology.entitySystem.systems.BaseComponentSystem;
+import org.terasology.entitySystem.systems.RegisterMode;
+import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.health.DoDamageEvent;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.geom.Vector3f;
@@ -42,7 +44,8 @@ import org.terasology.world.block.BlockManager;
 import java.util.List;
 import java.util.Optional;
 
-public class CreeperExplosionEvent extends ExplosionAuthoritySystem {
+@RegisterSystem(RegisterMode.AUTHORITY)
+public class CreeperExplosionEvent extends BaseComponentSystem implements UpdateSubscriberSystem {
     @In
     private WorldProvider worldProvider;
 
@@ -54,9 +57,6 @@ public class CreeperExplosionEvent extends ExplosionAuthoritySystem {
 
     @In
     private BlockManager blockManager;
-
-    @In
-    private DelayManager delayManager;
 
     private Random random = new FastRandom();
     private List<Optional<StaticSound>> explosionSounds = Lists.newArrayList();
@@ -70,36 +70,29 @@ public class CreeperExplosionEvent extends ExplosionAuthoritySystem {
         explosionSounds.add(Assets.getSound("core:explode5"));
     }
 
-    @ReceiveEvent
-    public void onActivate(ActivateEvent event, EntityRef entity, ExplosionActionComponent explosionComp) {
-        Vector3f origin = null;
-        switch (explosionComp.relativeTo) {
-            case Self:
-                LocationComponent loc = entity.getComponent(LocationComponent.class);
-                if (loc != null) {
-                    origin = loc.getWorldPosition();
-                }
-                break;
-            case Instigator:
-                origin = event.getInstigatorLocation();
-                break;
-            default:
-                origin = event.getTargetLocation();
-                break;
-        }
+    @Override
+    public void update (float delta) {
+        for (EntityRef entity : entityManager.getEntitiesWith(FollowComponent.class, ExplosionActionComponent.class, CreeperComponent.class)) {
+            CreeperComponent component = entity.getComponent(CreeperComponent.class);
+            FollowComponent followComponent = entity.getComponent(FollowComponent.class);
+            ExplosionActionComponent explosionComp = entity.getComponent(ExplosionActionComponent.class);
 
-        if (origin == null) {
-            return;
-        }
+            Vector3f entityFollowingLocation = followComponent.entityToFollow.getComponent(LocationComponent.class).getWorldPosition();
+            Vector3f currentActorLocation = entity.getComponent(LocationComponent.class).getWorldPosition();
+            float maxDistance =  entity.getComponent(CreeperComponent.class).maxDistanceTillExplode;
 
-        doExplosion(explosionComp, origin, EntityRef.NULL);
+            if (currentActorLocation.distanceSquared(entityFollowingLocation) <= maxDistance * maxDistance) {
+                doExplosion(explosionComp, currentActorLocation, EntityRef.NULL, entity);
+                followComponent.entityToFollow.send(new DoDamageEvent(explosionComp.damageAmount));
+            }
+        }
     }
 
     private StaticSound getRandomExplosionSound() {
         return explosionSounds.get(random.nextInt(0, explosionSounds.size() - 1)).get();
     }
 
-    void doExplosion(ExplosionActionComponent explosionComp, Vector3f origin, EntityRef instigatingBlockEntity) {
+    void doExplosion(ExplosionActionComponent explosionComp, Vector3f origin, EntityRef instigatingBlockEntity, EntityRef currentActor) {
         EntityBuilder builder = entityManager.newBuilder("core:smokeExplosion");
         builder.getComponent(LocationComponent.class).setWorldPosition(origin);
         EntityRef smokeEntity = builder.build();
@@ -124,12 +117,13 @@ public class CreeperExplosionEvent extends ExplosionAuthoritySystem {
                     EntityRef blockEntity = blockEntityRegistry.getEntityAt(blockPos);
                     // allow explosions to chain together,  but do not chain on the instigating block
                     if (!blockEntity.equals(instigatingBlockEntity) && blockEntity.hasComponent(ExplosionActionComponent.class)) {
-                        doExplosion(blockEntity.getComponent(ExplosionActionComponent.class), blockPos.toVector3f(), blockEntity);
+                        doExplosion(blockEntity.getComponent(ExplosionActionComponent.class), blockPos.toVector3f(), blockEntity, currentActor);
                     } else {
                         blockEntity.send(new DoDamageEvent(explosionComp.damageAmount, explosionComp.damageType));
                     }
                 }
             }
         }
+        currentActor.destroy();
     }
 }

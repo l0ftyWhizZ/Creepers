@@ -16,13 +16,8 @@
 package org.terasology.creepers.component;
 
 import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityRef;
 
 public class CreeperComponent implements Component {
     /* The maximum distance a creeper can have from a player, before exploding. */
     public float maxDistanceTillExplode = 10f;
-    /* The factor of explosion strength */
-    public float explosionFactor = 25f;
-    /* The entity which instigates the event, here, explosion event. */
-    public EntityRef instigator;
 }

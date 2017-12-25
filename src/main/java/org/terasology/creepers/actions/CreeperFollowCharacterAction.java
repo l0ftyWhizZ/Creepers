@@ -27,7 +27,7 @@ import org.terasology.math.geom.Vector3f;
 
 
 @BehaviorAction(name = "CheckFollowStatus")
-public class FollowCharacterAction extends BaseAction {
+public class CreeperFollowCharacterAction extends BaseAction {
 
     @Override
     public void construct(Actor actor) {
@@ -35,13 +35,6 @@ public class FollowCharacterAction extends BaseAction {
         FindNearbyPlayersComponent component = actor.getComponent(FindNearbyPlayersComponent.class);
         followComponent.entityToFollow = component.closestCharacter;
         actor.save(followComponent);
-        float maxDistance =  actor.getComponent(CreeperComponent.class).maxDistanceTillExplode;
-        Vector3f currentPlayerLocation = followComponent.entityToFollow.getComponent(LocationComponent.class).getWorldPosition();
-        Vector3f currentActorLocation = actor.getComponent(LocationComponent.class).getWorldPosition();
-
-        if (currentActorLocation.distanceSquared(currentPlayerLocation) < maxDistance * maxDistance) {
-
-        }
     }
 
     @Override
