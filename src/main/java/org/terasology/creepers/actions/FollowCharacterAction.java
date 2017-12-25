@@ -23,7 +23,7 @@ import org.terasology.logic.behavior.core.BaseAction;
 import org.terasology.logic.behavior.core.BehaviorState;
 
 
-@BehaviorAction(name = "followCharacter")
+@BehaviorAction(name = "CheckFollowStatus")
 public class FollowCharacterAction extends BaseAction {
 
     @Override

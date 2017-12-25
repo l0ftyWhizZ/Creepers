@@ -7,7 +7,7 @@
           child: {
           sequence: [
             { sleep: {time: 0.1f }},
-            followCharacter,
+            CheckFollowStatus,
             { lookup: {tree: "Creepers:follow" }}
            ]
           }
