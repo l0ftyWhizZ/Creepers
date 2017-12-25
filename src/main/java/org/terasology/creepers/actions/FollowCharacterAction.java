@@ -16,11 +16,11 @@
 package org.terasology.creepers.actions;
 
 import org.terasology.behaviors.components.FindNearbyPlayersComponent;
+import org.terasology.behaviors.components.FollowComponent;
 import org.terasology.logic.behavior.BehaviorAction;
 import org.terasology.logic.behavior.core.Actor;
 import org.terasology.logic.behavior.core.BaseAction;
 import org.terasology.logic.behavior.core.BehaviorState;
-import org.terasology.behaviors.components.FollowComponent;
 
 
 @BehaviorAction(name = "followCharacter")
@@ -30,7 +30,7 @@ public class FollowCharacterAction extends BaseAction {
     public void construct(Actor actor) {
         FollowComponent followComponent = new FollowComponent();
         FindNearbyPlayersComponent component = actor.getComponent(FindNearbyPlayersComponent.class);
-        followComponent.entityToFollow = component.charactersWithinRange.get(0);
+        followComponent.entityToFollow = component.closestCharacter;
         actor.save(followComponent);
 
     }

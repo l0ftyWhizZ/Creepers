@@ -7,7 +7,7 @@
     "loop": true
   },
   "Behavior": {
-    "tree": "Creepers:hostileCritter"
+    "tree": "Creepers:creeperBehavior"
   },
   "Stand": {
     "animationPool": [
@@ -77,5 +77,8 @@
       "engine:debris",
       "engine:sensor"
     ]
+  },
+  "FindNearbyPlayers": {
+    "searchRadius": 15
   }
 }

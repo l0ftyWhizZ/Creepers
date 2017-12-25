@@ -19,14 +19,10 @@ import org.terasology.entitySystem.Component;
 import org.terasology.entitySystem.entity.EntityRef;
 
 public class CreeperComponent implements Component {
-    public float speedMultiplier = 1.5f;
-    public float minDistance = 10f;
+    /* The maximum distance a creeper can have from a player, before exploding. */
+    public float maxDistanceTillExplode = 10f;
+    /* The factor of explosion strength */
     public float explosionFactor = 25f;
+    /* The entity which instigates the event, here, explosion event. */
     public EntityRef instigator;
-
-    public CreeperComponent() {
-        /*
-            Default constructor. Use pre-defined values for the fields.
-         */
-    }
 }

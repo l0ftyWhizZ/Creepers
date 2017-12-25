@@ -2,18 +2,21 @@
   dynamic: [
       {
         guard: {
-          componentPresent: "Creepers:FindNearbyPlayers",
+          componentPresent: "Behaviors:FindNearbyPlayers",
           values: ["N charactersWithinRange nonEmpty"],
           child: {
           sequence: [
             { sleep: {time: 0.1f }},
             followCharacter,
-            { lookup: {tree: "Creepers:hostile" }}
-
-            ]
+            { lookup: {tree: "Creepers:follow" }}
+           ]
           }
         }
       },
-      { lookup: { tree: "Creepers:stray" }}
+      {
+        lookup: {
+          tree: "Creepers:stray"
+        }
+      }
   ]
 }
