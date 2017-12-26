@@ -32,7 +32,6 @@ import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.entitySystem.systems.UpdateSubscriberSystem;
 import org.terasology.logic.delay.DelayManager;
 import org.terasology.logic.delay.DelayedActionComponent;
-import org.terasology.logic.delay.DelayedActionSystem;
 import org.terasology.logic.delay.DelayedActionTriggeredEvent;
 import org.terasology.logic.health.DoDamageEvent;
 import org.terasology.logic.health.OnDamagedEvent;
@@ -73,7 +72,7 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
     private List<Optional<StaticSound>> explosionSounds = Lists.newArrayList();
     private String delayActionID = "DELAY_ACTION_ID";
     private Optional<Prefab> damageType = Assets.getPrefab("Creepers:Creeper");
-    private Optional<StaticSound> fuseAudio = Assets.getSound("core:FuseBurning");
+    private Optional<StaticSound> fuseAudio = Assets.getSound("Creepers:creeperFuse");
 
     @Override
     public void initialise() {
@@ -92,14 +91,18 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
 
             if (entity.getComponent(DelayedActionComponent.class) == null)
                 entity.addComponent(new DelayedActionComponent());
-            
+
             Vector3f entityFollowingLocation = followComponent.entityToFollow.getComponent(LocationComponent.class).getWorldPosition();
             Vector3f currentActorLocation = entity.getComponent(LocationComponent.class).getWorldPosition();
             float maxDistance =  entity.getComponent(CreeperComponent.class).maxDistanceTillExplode;
 
             if (currentActorLocation.distanceSquared(entityFollowingLocation) <= maxDistance * maxDistance) {
-                entity.send(new PlaySoundEvent(fuseAudio.get(), 1f));
-                delayManager.addDelayedAction(entity, delayActionID, component.explosionDelay);
+                if (!component.isAgitated) {
+                    entity.send(new PlaySoundEvent(fuseAudio.get(), 0.8f));
+                    delayManager.addDelayedAction(entity, delayActionID, component.explosionDelay);
+                    component.isAgitated = true;
+                    entity.saveComponent(component);
+                }
             }
         }
     }
@@ -129,7 +132,7 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
         builder.getComponent(LocationComponent.class).setWorldPosition(origin);
         EntityRef smokeEntity = builder.build();
 
-        smokeEntity.send(new PlaySoundEvent(getRandomExplosionSound(), 1f));
+        smokeEntity.send(new PlaySoundEvent(getRandomExplosionSound(), 0.8f));
 
         Vector3i blockPos = new Vector3i();
         for (int i = 0; i < explosionComp.maxRange; i++) {
@@ -144,10 +147,8 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
                 blockPos.set((int) target.x, (int) target.y, (int) target.z);
                 Block currentBlock = worldProvider.getBlock(blockPos);
 
-                /* PHYSICS */
                 if (currentBlock.isDestructible()) {
                     EntityRef blockEntity = blockEntityRegistry.getEntityAt(blockPos);
-                    // allow explosions to chain together,  but do not chain on the instigating block
                     if (!blockEntity.equals(instigatingBlockEntity) && blockEntity.hasComponent(ExplosionActionComponent.class)) {
                         doExplosion(blockEntity.getComponent(ExplosionActionComponent.class), blockPos.toVector3f(), blockEntity, currentActor);
                     } else {

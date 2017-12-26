@@ -23,5 +23,7 @@ public class CreeperComponent implements Component {
     /* The maximum distance a creeper can have from a player, before exploding. */
     public float maxDistanceTillExplode = 10f;
     /* The delay between the instances when the creeper explodes, and when it starts fusing up. */
-    public long explosionDelay = 2;
+    public long explosionDelay = 2000;
+    /* The boolean corresponding to whether the creeper has been agitated. */
+    public boolean isAgitated = false;
 }
