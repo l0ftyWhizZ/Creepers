@@ -16,7 +16,9 @@
 package org.terasology.creepers.component;
 
 import org.terasology.entitySystem.Component;
+import org.terasology.world.block.ForceBlockActive;
 
+@ForceBlockActive
 public class CreeperComponent implements Component {
     /* The maximum distance a creeper can have from a player, before exploding. */
     public float maxDistanceTillExplode = 10f;

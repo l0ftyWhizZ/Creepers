@@ -88,7 +88,8 @@
     "damageType": "core:DestructiveExplosiveDamage"
   },
   "Creeper": {
-    "maxDistanceTillExplode": 2
+    "maxDistanceTillExplode": 3,
+    "explosionDelay": 2
   },
   "PlaySoundAction": {
         "sounds": ["core:Explode1", "core:Explode2", "core:Explode3", "core:Explode4", "core:Explode5"]
