@@ -48,7 +48,6 @@ import org.terasology.world.WorldProvider;
 import org.terasology.world.block.Block;
 import org.terasology.world.block.BlockManager;
 
-import java.util.List;
 import java.util.Optional;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
@@ -69,19 +68,10 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
     private DelayManager delayManager;
 
     private Random random = new FastRandom();
-    private List<Optional<StaticSound>> explosionSounds = Lists.newArrayList();
     private String delayActionID = "DELAY_ACTION_ID";
     private Optional<Prefab> damageType = Assets.getPrefab("Creepers:Creeper");
     private Optional<StaticSound> fuseAudio = Assets.getSound("Creepers:creeperFuse");
-
-    @Override
-    public void initialise() {
-        explosionSounds.add(Assets.getSound("core:explode1"));
-        explosionSounds.add(Assets.getSound("core:explode2"));
-        explosionSounds.add(Assets.getSound("core:explode3"));
-        explosionSounds.add(Assets.getSound("core:explode4"));
-        explosionSounds.add(Assets.getSound("core:explode5"));
-    }
+    private Optional<StaticSound> explosionAudio = Assets.getSound("Creepers:creeperExplode");
 
     @Override
     public void update (float delta) {
@@ -123,16 +113,12 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
         }
     }
 
-    private StaticSound getRandomExplosionSound() {
-        return explosionSounds.get(random.nextInt(0, explosionSounds.size() - 1)).get();
-    }
-
     void doExplosion(ExplosionActionComponent explosionComp, Vector3f origin, EntityRef instigatingBlockEntity, EntityRef currentActor) {
         EntityBuilder builder = entityManager.newBuilder("core:smokeExplosion");
         builder.getComponent(LocationComponent.class).setWorldPosition(origin);
         EntityRef smokeEntity = builder.build();
 
-        smokeEntity.send(new PlaySoundEvent(getRandomExplosionSound(), 0.8f));
+        smokeEntity.send(new PlaySoundEvent(explosionAudio.get(), 0.8f));
 
         Vector3i blockPos = new Vector3i();
         for (int i = 0; i < explosionComp.maxRange; i++) {
