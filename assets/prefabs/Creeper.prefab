@@ -2,7 +2,7 @@
   "skeletalmesh": {
     "mesh": "deer",
     "heightOffset": -0.8,
-    "material": "deerSkin",
+    "material": "creeperSkin",
     "animation": "deerIdle",
     "loop": true
   },

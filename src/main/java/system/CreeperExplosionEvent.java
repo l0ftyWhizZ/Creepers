@@ -107,9 +107,12 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
                                    ExplosionActionComponent explosionComp) {
         FollowComponent followComponent = entityRef.getComponent(FollowComponent.class);
         Vector3f currentActorLocation = entityRef.getComponent(LocationComponent.class).getWorldPosition();
+        Vector3f entityFollowingLocation = followComponent.entityToFollow.getComponent(LocationComponent.class).getWorldPosition();
+
         if (event.getActionId().equals(delayActionID)) {
+            if (currentActorLocation.distanceSquared(entityFollowingLocation) <= explosionComp.maxRange * explosionComp.maxRange)
+                followComponent.entityToFollow.send(new DoDamageEvent(explosionComp.damageAmount, damageType.get(), entityRef));
             doExplosion(explosionComp, currentActorLocation, EntityRef.NULL, entityRef);
-            followComponent.entityToFollow.send(new DoDamageEvent(explosionComp.damageAmount, damageType.get(), entityRef));
         }
     }
 
