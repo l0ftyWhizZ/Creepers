@@ -28,6 +28,7 @@
 
 That's basically it!
 
+<b> (NOTE: The dafault spawnPrefab console command will spawn the Creeper at the player's location, hence it will instantly trigger the explosion. Rather, change the spawnPrefab function to change the spawnPos offset to be further away from the player.) </b>
 ## TODO
 - Currently, the model used is the same as that of a deer, since I wasn't able to find a proper 'working' model for the creeper that could be easily converted to .MD5Mesh.
 
