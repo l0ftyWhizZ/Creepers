@@ -10,15 +10,6 @@
   `./groovyw module get Behaviors` <br>
   `./groovyw module get Pathfinding` 
   
-- After getting these modules, go into `Behaviors` module first, and change the current working branch to `behaviorv2` by using: <br>
-  `git checkout behaviorv2` <br>
-  Same for Pathfinding: <br>
-  `git checkout behaviorv2`
-  
-  You, also need to change the branch for Terasology, from `develop` to `behaviorv2` similarily.
-  
-  <b>(NOTE: These branch changes are to be done, since Behaviors v2 hasn't been merged into `master` yet. Once done, no need to change the branches.)</b>
-  
 - After setting the correct branches up, run `./gradlew idea`, to generate the IntelliJ project files, and after building successfully, load it up in IntelliJ CE IDE.
 
 ## How to use in-game?
