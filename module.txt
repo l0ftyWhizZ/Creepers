@@ -5,7 +5,7 @@
     "displayName" : "Creepers",
     "description" : "",
     "dependencies" : [
-        {"id": "Core", "minVersion": "1.0.0"},
+        {"id": "Core", "minVersion": "2.0.0-SNAPSHOT"},
 	    {"id": "Behaviors", "minVersion": "0.2.0-SNAPSHOT"}
     ],
     "isServerSideOnly" : false
