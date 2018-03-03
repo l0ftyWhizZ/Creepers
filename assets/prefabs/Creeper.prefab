@@ -1,7 +1,10 @@
 {
+  "DisplayName": {
+    "name": "Creeper"
+  },
   "skeletalmesh": {
     "mesh": "creeper",
-    "heightOffset": -0.3,
+    "heightOffset": -0.8,
     "material": "creeperSkin",
     "animation": "deerIdle",
     "loop": true
@@ -81,11 +84,17 @@
   "FindNearbyPlayers": {
     "searchRadius": 20
   },
+  "Follow": {
+    "entityToFollow": EntityRef.NULL
+  },
   "ExplosionAction": {
     "relativeTo": "Self",
     "maxRange": 48,
     "damageAmount": 500,
     "damageType": "core:DestructiveExplosiveDamage"
+  },
+  "WildAnimal": {
+      "name": "Creeper"
   },
   "Creeper": {
     "maxDistanceTillExplode": 3,
@@ -93,8 +102,5 @@
   },
   "PlaySoundAction": {
         "sounds": ["core:Explode1", "core:Explode2", "core:Explode3", "core:Explode4", "core:Explode5"]
-  },
-  "DisplayName": {
-    "name": "Creeper"
   }
 }

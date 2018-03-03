@@ -15,8 +15,6 @@
  */
 package system;
 
-import com.google.common.collect.Lists;
-import org.lwjgl.Sys;
 import org.terasology.audio.StaticSound;
 import org.terasology.audio.events.PlaySoundEvent;
 import org.terasology.behaviors.components.FollowComponent;
@@ -79,19 +77,21 @@ public class CreeperExplosionEvent extends BaseComponentSystem implements Update
             CreeperComponent component = entity.getComponent(CreeperComponent.class);
             FollowComponent followComponent = entity.getComponent(FollowComponent.class);
 
-            if (entity.getComponent(DelayedActionComponent.class) == null)
-                entity.addComponent(new DelayedActionComponent());
+            if (followComponent.entityToFollow != EntityRef.NULL) {
+                if (entity.getComponent(DelayedActionComponent.class) == null)
+                    entity.addComponent(new DelayedActionComponent());
 
-            Vector3f entityFollowingLocation = followComponent.entityToFollow.getComponent(LocationComponent.class).getWorldPosition();
-            Vector3f currentActorLocation = entity.getComponent(LocationComponent.class).getWorldPosition();
-            float maxDistance =  entity.getComponent(CreeperComponent.class).maxDistanceTillExplode;
+                Vector3f entityFollowingLocation = followComponent.entityToFollow.getComponent(LocationComponent.class).getWorldPosition();
+                Vector3f currentActorLocation = entity.getComponent(LocationComponent.class).getWorldPosition();
+                float maxDistance = entity.getComponent(CreeperComponent.class).maxDistanceTillExplode;
 
-            if (currentActorLocation.distanceSquared(entityFollowingLocation) <= maxDistance * maxDistance) {
-                if (!component.isAgitated) {
-                    entity.send(new PlaySoundEvent(fuseAudio.get(), 0.8f));
-                    delayManager.addDelayedAction(entity, delayActionID, component.explosionDelay);
-                    component.isAgitated = true;
-                    entity.saveComponent(component);
+                if (currentActorLocation.distanceSquared(entityFollowingLocation) <= maxDistance * maxDistance) {
+                    if (!component.isAgitated) {
+                        entity.send(new PlaySoundEvent(fuseAudio.get(), 0.8f));
+                        delayManager.addDelayedAction(entity, delayActionID, component.explosionDelay);
+                        component.isAgitated = true;
+                        entity.saveComponent(component);
+                    }
                 }
             }
         }
