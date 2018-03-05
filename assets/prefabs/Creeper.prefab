@@ -93,9 +93,6 @@
     "damageAmount": 500,
     "damageType": "core:DestructiveExplosiveDamage"
   },
-  "WildAnimal": {
-      "name": "Creeper"
-  },
   "Creeper": {
     "maxDistanceTillExplode": 3,
     "explosionDelay": 1000

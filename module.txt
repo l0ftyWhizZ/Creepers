@@ -1,12 +1,12 @@
 {
     "id" : "Creepers",
     "version" : "0.1.0-SNAPSHOT",
-    "author" : "",
+    "author" : "l0ftyWhizZ",
     "displayName" : "Creepers",
-    "description" : "",
+    "description" : "This module can be used to spawn the MC-like creeper entity into the world, which self-explode in close proximity",
     "dependencies" : [
-        {"id": "Core", "minVersion": "2.0.0-SNAPSHOT"},
-	    {"id": "Behaviors", "minVersion": "0.2.0-SNAPSHOT"}
+           {"id" : "Behaviors", "minVersion" : "0.2.0"},
+           {"id" : "Core", "minVersion" : "2.0.0"}
     ],
     "isServerSideOnly" : false
 }
